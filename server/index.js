@@ -1,26 +1,19 @@
+
 "use strict";
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 
 // IMPORT HANDLERS
 const { allSportsHandler } = require("./handlers/allSportsHandler");
 const { individualSportHandler } = require("./handlers/individualSportHandler");
+const { deleteUser, getUsers, postQuestion } = require("./handlers/mongoHandlers");
 
 const PORT = 4000;
 
 express()
-    .use(function (req, res, next) {
-        res.header(
-            "Access-Control-Allow-Methods",
-            "OPTIONS, HEAD, GET, PUT, POST, DELETE"
-        );
-        res.header(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept"
-        );
-        next();
-})
+    .use(cors())
     .use(morgan("tiny"))
     .use(express.static("./server/assets"))
     .use(express.json())
@@ -28,8 +21,17 @@ express()
     .use("/", express.static(__dirname + "/"))
 
 
-
+    .post("/send-question", postQuestion)
     .get("/sports/:sportKey/odds", individualSportHandler)
     .get("/sports", allSportsHandler)
+    .get("/users", getUsers)
+    
+    .delete("/users/:userId", deleteUser)
+
+
+    // THIS IS BEING SAVED FOR LATER
+    // .get("/users/verify-email-redirect", emailVerificationRedirect)
+    // .get("/users/verify-email", verifyEmail)
+    
 
     .listen(PORT, () => console.info(`Listening on port ${PORT}`));

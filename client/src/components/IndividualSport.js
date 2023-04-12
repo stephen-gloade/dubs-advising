@@ -5,13 +5,15 @@ import moment from "moment-timezone";
 import { NBATeamLogos } from "./teamlogos/NBATeamLogos";
 import { MLBTeamLogos } from "./teamlogos/MLBTeamLogos";
 import { NFLTeamLogos } from "./teamlogos/NFLTeamLogos";
-// import { NHLTeamLogos } from "./teamlogos/NHLTeamLogos";
-
+import useProtectedRoute from "./useProtectedRoute";
 
 const IndividualSport = () => {
 
+    const protectedRoute = useProtectedRoute();
     const [ specificSport, setSpecificSport ] = useState([])
+    const [drawExist, setDrawExist] = useState(false);
     const { sportKey } = useParams()
+    
 
     //
     // FETCH to display data specific to the sportKey ex: 'baseball_mlb'
@@ -24,7 +26,7 @@ const IndividualSport = () => {
         })
 
     }, [sportKey])
-    console.log(specificSport)
+
     //
     // FUNCTION to find the best odds or 'price:' looking at every bookmaker!
     //
@@ -57,6 +59,7 @@ const IndividualSport = () => {
       //
       // FUNCTION for conversion of decimal odds to American.
       //
+
     const decimalToAmericanOdds = (decimalOdds) => {
         if (decimalOdds >= 2) {
           return `+${Math.round((decimalOdds - 1) * 100)}`;
@@ -67,7 +70,7 @@ const IndividualSport = () => {
 
 
     //
-    // FUNCTION convert GMT to EST
+    // FUNCTION convert the fetched GMT to EST
     //
     const convertToEST = (time) => {
         return moment(time).tz("America/New_York").format("MMM D, h:mm A");
@@ -75,14 +78,22 @@ const IndividualSport = () => {
 
     //
     // FUNCTION to process whether or not it is Arbitrage
+    // Also the cause of the most disgusting ternary operator in history
+    // Likely could have been polished just a tad haha, ran out of time
     //
 
-    const processArbitrage = (homeOdds, awayOdds) => {
-        return (
-            Math.round(((1 / homeOdds + 1 / awayOdds) * 100) * 100) / 100
-
-        )
+    const processArbitrage = (homeOdds, awayOdds, drawOdds) => {
+        if (drawExist) {
+            return (
+                Math.round(((1 / homeOdds + 1 / awayOdds + 1 / drawOdds) * 100) * 100) / 100
+            )
+        } else {
+            return (
+                Math.round(((1 / homeOdds + 1 / awayOdds) * 100) * 100) / 100
+            )
+        }
     }
+    
 
     //
     // FUNCTION to process which sport to use for Logo
@@ -100,6 +111,32 @@ const IndividualSport = () => {
                 return null;
         }
     };
+
+    //
+    //  Checking if a "Draw" outcome exists for the sport. Used for soccer
+    //
+
+    useEffect(() => {
+        const drawExists = specificSport.some((game) =>
+            game.bookmakers.some((bookmaker) =>
+            bookmaker.markets.some((market) =>
+            market.outcomes.some((outcome) => outcome.name === "Draw")
+            )
+        )
+        );
+
+        setDrawExist(drawExists);
+    }, [specificSport]);
+
+
+
+    //
+    // Custom hook to ensure user authentication before accessing arbitrage pages
+    //
+
+    if (protectedRoute) {
+        return protectedRoute;
+    }
 
     return (
     <SportWrap>
@@ -127,9 +164,29 @@ const IndividualSport = () => {
                                 <Odds>{bestPrices[game.away_team].price}</Odds><Odds>{decimalToAmericanOdds(bestPrices[game.away_team].price)}</Odds><Odds>{bestPrices[game.away_team].bookmaker}</Odds>
                         </AwayTeamWrap>
                     </TeamWrap>
+                    
+                    {drawExist ? 
+                    <DrawWrap>
+                    <p>Draw</p> 
+                    <Odds>{bestPrices['Draw'].price}</Odds>
+                    <Odds>{bestPrices["Draw"].bookmaker}</Odds>
+                    </DrawWrap>
+                    : null}
+                    
                     <TimeWrap>
                         <H3>{formattedTimeEST} EST</H3>
-                        {processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price) < 80 ? <GreatArb>Great - %{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price)}</GreatArb> : processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price) < 90 ? <GoodArb>Good - %{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price)}</GoodArb> : processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price) < 100 ? <Arb>Okay - %{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price)}</Arb> : <H3>%{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price)}</H3>}
+
+                        {/* Quite possibly the most disgustttinggggg ternary operator in history. I'm kind of proud of it
+                        in a masochistic way */}
+
+                        {processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ? 
+                        bestPrices['Draw'].price : undefined) < 80 ? 
+                        <GreatArb>Great - %{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ?
+                        bestPrices['Draw'].price : undefined)}</GreatArb> : processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ?
+                        bestPrices['Draw'].price : undefined) < 90 ? <GoodArb>Good - %{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ?
+                        bestPrices['Draw'].price : undefined)}</GoodArb> : processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ? bestPrices['Draw'].price : undefined) < 100 ?
+                        <Arb>Okay - %{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ? bestPrices['Draw'].price : undefined)}</Arb> : <H3>%{processArbitrage(bestPrices[game.home_team].price, bestPrices[game.away_team].price, drawExist ?
+                        bestPrices['Draw'].price : undefined)}</H3>}
                     </TimeWrap>
                 </GameWrap>
             )
@@ -137,6 +194,13 @@ const IndividualSport = () => {
     </SportWrap>
     )
 }
+
+const DrawWrap = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
 
 const TeamLogoWrap = styled.div `
 display: flex;
@@ -181,12 +245,11 @@ width: 80%;
 p {
     font-weight: 500; 
     text-align: center;
+
 }
 `
 
 const Odds = styled.div `
-/* grid-column-start: 2;
-grid-column-end: 2; */
 display: flex;
 justify-content:center;
 align-items: center;
@@ -204,13 +267,9 @@ padding: 5px;
 color: #fff;
 `
 
-const BestPrice = styled.div `
-color: white;
-`
-
 const TeamWrap = styled.div `
 display: grid;
-grid-template-rows: 1fr 1fr
+grid-template-rows: 1fr 1fr;
 flex-direction: column;
 width: 80%;
 `
@@ -232,11 +291,8 @@ grid-row-start: 2;
 grid-row-end: 2;
 `
 const H2 = styled.h2 `
-/* color: #21F292; */
 color: #fff;
 font-weight: 100;
-/* grid-column-start: 1;
-grid-column-end: 1 */
 `
 
 const SportWrap = styled.div `
@@ -254,12 +310,9 @@ width: 80%;
 background-color: #29282B;
 margin: 10px;
 border-radius: 5px;
-/* color: #21F292; */
 color: #fff;
 font-weight: 100;
 justify-content: space-between;
-/* box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; */
-/* box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px; */
 box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `
 

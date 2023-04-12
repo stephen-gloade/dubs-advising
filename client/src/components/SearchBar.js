@@ -14,7 +14,6 @@ useEffect(() => {
 fetch('/sports')
     .then(res => res.json())
     .then((data) => {
-    console.log(data);
     setSports(data);
     });
 }, []);
@@ -87,6 +86,7 @@ background-color: none;
 display: flex;
 justify-content: center;
 align-items: center;
+margin-right: 15px;
 `
 
 const SearchBarContainer = styled.div`

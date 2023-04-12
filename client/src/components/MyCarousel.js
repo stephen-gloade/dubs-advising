@@ -6,6 +6,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 
+//
+//  Div carousel, I love the idea of this effect but not happy with how it looked upon implimentation
+//  Would love to make it look good at some point
+//  Uses react-multi-carousel npm. Great package!
+//
+
+
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -27,12 +34,14 @@ const responsive = {
 
 const MyCarousel = () => {
 
+  //
+  //  Fetches over all sports. maps them to the carousel
+  //
     const [sports, setSports] = useState([])
     useEffect(() => {
         fetch('/sports')
             .then(res => res.json())
             .then((data) => {
-            console.log(data);
             setSports(data)
         })
     }, [])
@@ -43,7 +52,7 @@ const MyCarousel = () => {
         <CarouselDiv
           swipeable={true}
           draggable={true}
-          showDots={true}
+          showDots={false}
           responsive={responsive}
           infinite={true}
           autoPlay={true}
@@ -75,6 +84,8 @@ const MyCarousel = () => {
   font-weight:500;
   font-size:2rem;
   text-align: center;
+  overflow-wrap: break-word;
+
   `
 
   const H4 = styled.h4`
@@ -87,20 +98,25 @@ const MyCarousel = () => {
 
   const CarouselDiv = styled(Carousel) `
   padding: 50px;
+  margin-top: 40px;
   `
 
   const CarouselItem = styled.div `
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  padding-bottom: 20px;
   align-items: center;
   height: 200px;
   width: 250px;
-  background-color: #faf6d7;
+  background-color: rgba(33, 242, 145, 1); 
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   margin: 20px 0px;
   color: black;
   font-weight: 100;
+  border-radius: 5px;
+  overflow-wrap: break-word;
   `
   export default MyCarousel;
   

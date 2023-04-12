@@ -1,4 +1,8 @@
 
+/* Some css files are included when I either had a moment of misunderstanding with
+styled-components or I deemed it necessary based on what I was doing */
+
+
 .arrow {
     position: absolute;
     top: 50%;

@@ -8,7 +8,13 @@ import Layout from "./Layout";
 import About from "./About";
 import Contact from "./Contact";
 import IndividualSport from "./IndividualSport";
+import Callback from "./Callback";
+import Settings from "./Settings";
 
+
+//
+//  ParallaxProvider for use of the parallax npm
+//
 
 function App() {
 
@@ -24,6 +30,8 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="/sports/:sportKey/odds" element={<IndividualSport/>} />
+        <Route path="/callback" element={<Callback/>} />
+        <Route path="/settings" element={<Settings/>} />
       </Routes>
     </Router>
   </ParallaxProvider>

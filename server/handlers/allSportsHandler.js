@@ -31,7 +31,7 @@ axios.get('https://api.the-odds-api.com/v4/sports', {
     console.log('Used requests',response.headers['x-requests-used'])
 })
 .catch(error => {
-    console.log('Error status', error.response.status)
+    console.log('Error status', error.response)
     console.log(error.response.data)
 })
 }

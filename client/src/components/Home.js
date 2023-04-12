@@ -4,7 +4,14 @@ import { useInView } from 'react-intersection-observer';
 import "./home.css"
 import MyCarousel from "./MyCarousel";
 
+//
+//  react-intersection-observer hook for finding our element in view!
+//  MyCarousel is rendered here!
+//
+
+
 const Home = () => {
+
     const { ref: homeRef, inView} = useInView({ delay: 100})
 
     return (
@@ -16,7 +23,7 @@ const Home = () => {
             <MyCarousel/>
         </HomeWrap>
     )
-}
+};
 
 const H1 = styled.h1 `
 text-align: center;
@@ -28,23 +35,10 @@ margin: 5px;
 
 const HomeWrap = styled.div `
 display: flex;
+margin-top: 20px;
 width: 100%;
 flex-direction: column;
 justify-content:center;
 `
 
-const MapWrap = styled.div `
-display: flex;
-flex-wrap: wrap;
-
-
-// `
-
-// const SportWrapper = styled.div `
-// display: flex;
-// justify-content: center;
-// align-items: center;
-// width: 200px;
-// `
-
-export default Home
+export default Home;

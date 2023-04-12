@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { FiLoader } from "react-icons/fi"
 import { IconContext } from "react-icons/lib";
 
+// 
+//  LoadingSpinner component, used in fetch instances or checking auth0 authentication
+//
+
 const Loading = () => {
     return (
     <LoadWrapper>

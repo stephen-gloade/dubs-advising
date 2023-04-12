@@ -1,5 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
+//
+//  GlobalStyles, oh how I should've added so much more.... Atleast I know for the future!
+//
+
 const GlobalStyles = createGlobalStyle `
 
 * {

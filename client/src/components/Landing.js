@@ -1,15 +1,18 @@
 import styled from 'styled-components'
 import companyLogo from '../assets/Dubs-Logo-Full.png'
-import { ParallaxBanner, useParallax } from 'react-scroll-parallax'
+import { ParallaxBanner } from 'react-scroll-parallax'
 import banner from '../assets/banner1.png'
-import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useInView } from 'react-intersection-observer';
 import  './landing.css'
 import SmoothArrow from './SmoothArrow'
 
+//
+//  Landing Page component, uses ParallaxBanner, SmoothArrow animation
+//  Also uses react-intersection-observer a custom hook from npm that informs you if an element is in the viewport
+//
+
 const Landing = () => {
-    //const { ref } = useParallax<HTMLDivElement>({ speed: 100 });
     const { ref: myRef, inView } = useInView({ threshold: 0.5, delay: 1000});
     const { ref: logoRef, inView: logoIsVisible} = useInView({ delay: 100})
 
@@ -59,7 +62,6 @@ const Landing = () => {
                 </LogosWrap>
             </Wrapper2>
         </Wrapper>
-//{myElementIsVisible ? 'visible' : 'hidden'}
     )
 }
 
@@ -115,24 +117,7 @@ height: 450px;
 background-color: #29282B;
 display: flex;
 flex-direction: column;
-
-/* border-radius: 25px; */
 box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-
-`
-
-const Item1 = styled.h2 `
-color: white;
-font-size: 3rem;
-z-index: 100;
-`
-
-const ContentWrapper = styled.div `
-display: flex;
-z-index: 100;
-`
-
-const Wrapper3 = styled.div `
 
 `
 
@@ -141,26 +126,11 @@ display: flex;
 width: 100%;
 height: 100vh;
 flex-direction: column;
-/* z-index: 100; */
-/* position: fixed; */
 top: 0;
 justify-content: center;
 align-items: center;
 
 
-
-`
-
-const BannerItem = styled.div `
-display: flex;
-align-items: center;
-justify-content: center;
-width: 300px;
-height: 500px;
-background-color: gray;
-border-radius: 25px;
-position: absolute;
-top: 500px;
 
 `
 
