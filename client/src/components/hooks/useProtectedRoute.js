@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Ellipsis from './Elipsis';
+import Ellipsis from '../Elipsis';
 
 const useProtectedRoute = () => {
   const { isAuthenticated, isLoading } = useAuth0();

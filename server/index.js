@@ -8,7 +8,7 @@ const cors = require("cors");
 // IMPORT HANDLERS
 const { allSportsHandler } = require("./handlers/allSportsHandler");
 const { individualSportHandler } = require("./handlers/individualSportHandler");
-const { deleteUser, getUsers, postQuestion } = require("./handlers/mongoHandlers");
+const { deleteUser, getUsers, postQuestion, patchAge } = require("./handlers/mongoHandlers");
 
 const PORT = 4000;
 
@@ -25,7 +25,7 @@ express()
     .get("/sports/:sportKey/odds", individualSportHandler)
     .get("/sports", allSportsHandler)
     .get("/users", getUsers)
-    
+    .patch("/users/:userId/age", patchAge)
     .delete("/users/:userId", deleteUser)
 
 

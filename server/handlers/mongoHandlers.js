@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 const { ObjectId } = require('mongodb');
 // const nodemailer = require('nodemailer'); For use later
 require("dotenv").config();
-const { MONGO_URI, SENDGRID_APIKEY } = process.env;
+const { MONGO_URI } = process.env;
 
 
 const options = {
@@ -25,7 +25,7 @@ useUnifiedTopology: true,
 //   });
 
   //
-  //  THIS IS BEING SAVED FOR LATER, IT IS PURPOSEFULLY LEFT IN
+  //TODO:  THIS IS BEING SAVED FOR LATER, IT IS PURPOSEFULLY LEFT IN
   //
 
   // const verifyEmail = async (req, res) => {
@@ -78,6 +78,9 @@ useUnifiedTopology: true,
 //     }
 //   };
 
+//
+//  postQuestion is just a POST of the feedback to a mongodb collection
+//
 
 const postQuestion = async (req, res) => {
   const { question } = req.body;
@@ -157,8 +160,39 @@ const getUsers = async (req, res) => {
     } catch(err) {
         console.log('error')
     }
-}
+};
+
+const patchAge = async (req, res) => {
+  const { userId } = req.params;
+
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    const db = client.db("db-name");
+    const users = db.collection("users");
+
+    const query = { _id: new ObjectId(userId) };
+    const update = { $set: { over_18: true } };
+
+    const result = await users.updateOne(query, update);
+
+    await client.close();
+
+    if (result.matchedCount > 0) {
+      res.status(200).json({ message: "User age updated successfully." });
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({
+      message: "An error occurred while updating the user.",
+      error: err,
+    });
+  }
+};
 
 
-module.exports = { deleteUser, getUsers, postQuestion }
+module.exports = { deleteUser, getUsers, postQuestion, patchAge }
 

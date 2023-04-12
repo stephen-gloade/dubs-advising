@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import { IconContext } from 'react-icons/lib';
 import { BsSearch } from "react-icons/bs";
 
+//
+//  SearchBar component! filters based on sport title but also displays sport.description along with it
+//
+
 const SearchBar = () => {
 const [sports, setSports] = useState([]);
 const [searchTerm, setSearchTerm] = useState('');
@@ -103,7 +107,7 @@ border-radius: 4px;
 font-size: 16px;
 background: none;
 color: #fff;
-border-radius: 25px
+border-radius: 25px;
 `
 
 const SearchIcon = styled(BsSearch)`

@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import { Auth0Provider } from '@auth0/auth0-react';
+//
+//  server root, wrapped by Auth0Provider for user context!
+//
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

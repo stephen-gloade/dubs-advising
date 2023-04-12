@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+//
+// QuestionForm that is absolutely a feedbackForm I am just too scared to touch anything right now...
+// Function names and imports included :)
+//
 
 
 const QuestionForm = () => {
@@ -58,12 +62,12 @@ border-radius: 5px;
 `
 
 const Input = styled.textarea`
-  font-size: 20px;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  line-height: 20px; // Adjust the line-height property
-  border-radius: 5px;
+font-size: 20px;
+width: 100%;
+height: 100%;
+padding: 10px;
+line-height: 20px;
+border-radius: 5px;
 `
 
 const Form = styled.form`

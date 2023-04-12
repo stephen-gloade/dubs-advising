@@ -1,15 +1,19 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import Loading from "./LoadingSpinner";
-import QuestionForm from "./QuestionForm";
+import AgeVerification from "./AgeVerification";
+
+//
+//  Settings page for viewing and configuring user data!
+//  Delete user from db
+//  Calls AgeVerification which verifies a users age
+//
+
 
 const Settings = () => {
 
     const { isAuthenticated, isLoading, user, logout } = useAuth0();
-    const [name, setName] = useState(false);
-    const navigate = useNavigate();
     const [displayDelete, setDisplayDelete] = useState(false)
 
     if (isAuthenticated && !isLoading) {
@@ -46,6 +50,7 @@ const Settings = () => {
             <NameKey>Nickname</NameKey>
             <NameValue>{user.nickname}</NameValue>
         </AccountInfo>
+        <AgeVerification/>
         <Button onClick={() => {setDisplayDelete(true)}}>DELETE ACCOUNT</Button>
 
         { displayDelete ? <DeleteWrap><P>Are you sure you want to delete your account? Clicking <Span>'Yes Delete'</Span> will <Span>delete</Span> your account <Span>forever</Span>... </P><ConfirmDelete onClick={() => {deleteUser(userIdWithoutAuth0);logout({ logoutParams: { returnTo: window.location.origin } })}}>Yes Delete</ConfirmDelete></DeleteWrap> : null}

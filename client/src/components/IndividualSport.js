@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 import { NBATeamLogos } from "./teamlogos/NBATeamLogos";
 import { MLBTeamLogos } from "./teamlogos/MLBTeamLogos";
 import { NFLTeamLogos } from "./teamlogos/NFLTeamLogos";
-import useProtectedRoute from "./useProtectedRoute";
+import useProtectedRoute from "./hooks/useProtectedRoute";
 
 const IndividualSport = () => {
 

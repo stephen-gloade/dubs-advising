@@ -14,6 +14,10 @@ const oddsFormat = 'decimal' // decimal | american
 
 const dateFormat = 'iso' // iso | unix
 
+//
+//  GET where the sportkey is passed, allowing for rendering of individual games in a certain sport
+//
+
 const individualSportHandler = (req, res) => {
     const sportKey = req.params.sportKey;
     console.log(sportKey)
@@ -28,14 +32,9 @@ const individualSportHandler = (req, res) => {
 })
 .then(response => {
     res.json(response.data)
-    // response.data.data contains a list of live and 
-    //   upcoming events and odds for different bookmakers.
-    // Events are ordered by start time (live events are first)
-   // console.log(JSON.stringify(response.data))
 
-    // Check your usage
-    console.log('Remaining requests',response.headers['x-requests-remaining'])
-    console.log('Used requests',response.headers['x-requests-used'])
+    // console.log('Remaining requests',response.headers['x-requests-remaining']) IN FOR FUTURE USE
+    // console.log('Used requests',response.headers['x-requests-used'])           IN FOR FUTURE USE
 
 })
 .catch(error => {
