@@ -1,8 +1,10 @@
 const axios = require('axios')
+require("dotenv").config();
+const { ODDS_APIKEY  } = process.env;
 
 // An api key is emailed to you when you sign up to a plan
 // Get a free API key at https://api.the-odds-api.com/
-const apiKey = 'b5dff499dbf00d3a321f92b888c9b60f'
+const apiKey = ODDS_APIKEY
 
 const sportKey = 'baseball_mlb' // use the sport_key from the /sports endpoint below, or use 'upcoming' to see the next 8 games across all sports
 

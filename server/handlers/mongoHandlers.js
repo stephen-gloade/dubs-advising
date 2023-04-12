@@ -1,11 +1,6 @@
-let fetch;
-(async () => {
-  fetch = await import('node-fetch');
-  fetch = fetch.default;
-})();
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require('mongodb');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer'); For use later
 require("dotenv").config();
 const { MONGO_URI, SENDGRID_APIKEY } = process.env;
 
