@@ -1,0 +1,30 @@
+.fade-in {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 1s ease-in-out; 
+
+}
+
+.fade-in.is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
+.logo {
+    border-radius: 5px;
+}
+
+
+.logo.first {
+transition-delay: 300ms;
+}
+
+.logo.second{
+transition-delay: 600ms;
+}
+
+.logo.third {
+transition-delay: 900ms;
+}
