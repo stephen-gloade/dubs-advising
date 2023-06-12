@@ -1,8 +1,8 @@
-# Dubs Advising Capstone Project
+# :diamonds:Dubs Advising Capstone Project:diamonds:
 
 This repository contains the source code for a web-based arbitrage betting platform that specializes in math based betting. This project was built to provide Dubs clients a prototype betting system for implementation into the production site. 
 
-## Project Overview
+## :trophy:Project Overview
 
 The platform allows authorized users to view all games being played from an array of 60 different sports through the ODDS API. These individual games are then mapped through to find the best odds from each bookmaker. The best odds per team are then displayed and the user is informed whether or not the math allows for a 0% loss bet. Calculations are done using Express.js endpoints made for this project and some client side arithimic. The user is authorizied using auth0, without proper authorization the user cannot access the arbitrage systems.
 
@@ -10,7 +10,7 @@ The frontend of the application is built with React, providing a smooth and resp
 
 The backend provides the frontend with all the required data in an organized and efficient manner. As users make purchases, the database is updated to reflect the current stock of items.
 
-## MVP
+## :dart:MVP
 
 Frontend:
 - Incorporated many different animation components.
@@ -25,7 +25,7 @@ Backend:
 - The server provides the frontend with required data in a clear and organized way after being received from a third party api.
 - Auth0 integration to send the user information to MongoDB 
 
-## Future Improvements
+## :pencil:Future Improvements
 
 Here are some areas to improve in future development:
 
